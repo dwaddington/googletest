@@ -75,7 +75,7 @@ pkg-config will also try to look in `PKG_CONFIG_PATH` to find `gtest_main.pc`.
 
 Pkg-config can be used in a cross-compilation setting too. To do this, let's
 assume the final prefix of the cross-compiled installation will be `/usr`, and
-your sysroot is `/home/MYUSER/sysroot`. Configure and install GTest using
+your sysroot is `/SOMEDIR/MYUSER/sysroot`. Configure and install GTest using
 
 ```
 mkdir build && cmake -DCMAKE_INSTALL_PREFIX=/usr ..
@@ -84,7 +84,7 @@ mkdir build && cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 Install into the sysroot using `DESTDIR`:
 
 ```
-make -j install DESTDIR=/home/MYUSER/sysroot
+make -j install DESTDIR=/SOMEDIR/MYUSER/sysroot
 ```
 
 Before we continue, it is recommended to **always** define the following two
@@ -115,7 +115,7 @@ Cflags: -I${includedir} -DGTEST_HAS_PTHREAD=1 -lpthread
 
 Notice that the sysroot is not included in `libdir` and `includedir`! If you try
 to run `pkg-config` with the correct
-`PKG_CONFIG_LIBDIR=/home/MYUSER/sysroot/usr/lib64/pkgconfig` against this `.pc`
+`PKG_CONFIG_LIBDIR=/SOMEDIR/MYUSER/sysroot/usr/lib64/pkgconfig` against this `.pc`
 file, you will get
 
 ```
@@ -132,7 +132,7 @@ pkg-config about the actual sysroot
 
 ```
 export PKG_CONFIG_DIR=
-export PKG_CONFIG_SYSROOT_DIR=/home/MYUSER/sysroot
+export PKG_CONFIG_SYSROOT_DIR=/SOMEDIR/MYUSER/sysroot
 export PKG_CONFIG_LIBDIR=${PKG_CONFIG_SYSROOT_DIR}/usr/lib64/pkgconfig
 ```
 
@@ -140,9 +140,9 @@ and running `pkg-config` again we get
 
 ```
 $ pkg-config --cflags gtest
--DGTEST_HAS_PTHREAD=1 -lpthread -I/home/MYUSER/sysroot/usr/include
+-DGTEST_HAS_PTHREAD=1 -lpthread -I/SOMEDIR/MYUSER/sysroot/usr/include
 $ pkg-config --libs gtest
--L/home/MYUSER/sysroot/usr/lib64 -lgtest -lpthread
+-L/SOMEDIR/MYUSER/sysroot/usr/lib64 -lgtest -lpthread
 ```
 
 which contains the correct sysroot now. For a more comprehensive guide to also
